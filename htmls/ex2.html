@@ -1,0 +1,23 @@
+step 1: extract all the html
+	* since it's in the developing stage write a function to extract all the
+	html of a page (mainly for testing)
+	* write another function to get the main tag containing the all the novel
+	chapter text <div class="entry-content">.
+
+step 2: refine the html and get the only desired parts
+	* get the h1 tag and store it in a variable
+		~ problem with the h1 tag some novels pages doesn't have the h1 tag so
+		I'm thinking of creating the h1 tag and enter the text manually.
+		~ Get the Id column from the database and enter along with
+		capitolo '{id}' as the h1 tag texts. 
+	* get all the p tags and get only the novel_p_tags
+
+step 3: Create the useful html
+	* create an empty main tag
+	* add the h1 tag and the novel_p_tags to the empty tag
+
+step 4: Retrieve the urls list from the database.
+	* Access the chapter title and the url from the retrieved records.
+
+step 5: Store the new formed main tag in the database:
+	* 

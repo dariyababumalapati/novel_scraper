@@ -24,7 +24,7 @@ def create_connection(database_name: str):
     """
     try:
         connection = mysql.connector.connect(
-            host="172.27.0.1",
+            host="192.168.1.8",
             user="root",
             password=os.environ.get("MYSQL_PASSWORD"),
             database=database_name,
@@ -46,7 +46,7 @@ def create_connection(database_name: str):
 connection = create_connection("sl")
 
 
-def insert_into_urls_table(chapter_and_url):
+def insert_into_urls_table(chapter_and_url, database="sl", table_number=""):
     """
     Inserts a record into the URLs table.
 
@@ -63,9 +63,10 @@ def insert_into_urls_table(chapter_and_url):
     bool: True if the insert operation was successful, False otherwise.
     """
     try:
+        connection = create_connection(database)
         cursor = connection.cursor()
-        insert_query = """
-            INSERT INTO urls (chapter_title, url)
+        insert_query = f"""
+            INSERT INTO {database}_urls{table_number} (chapter_title, url)
             VALUES (%s, %s)
         """
         cursor.execute(insert_query, chapter_and_url)
@@ -82,8 +83,77 @@ def insert_into_urls_table(chapter_and_url):
             cursor.close()
 
 
+def insert_into_table_column(column_adress: dict, data):
+    try:
+        connection = create_connection(column_adress["database"])
+        cursor = connection.cursor()
+        insert_query = f"""
+            INSERT INTO {column_adress['table']} ({column_adress['column']})
+            VALUES (%s)
+        """
+        cursor.execute(insert_query, data)
+        connection.commit()
+        return True
+
+    except mysql.connector.Error as err:
+        print(f"Error occurred: {err}")
+        connection.rollback()
+        return False
+
+    finally:
+        if cursor:
+            cursor.close()
+
+
+def retrieve_table(database, table_number=""):
+    try:
+        connection = create_connection(database)
+        cursor = connection.cursor()
+        insert_query = f"""
+            SELECT * FROM {database}_urls{table_number}
+        """
+        cursor.execute(insert_query)
+        records = cursor.fetchall()
+
+        connection.commit()
+        return records
+
+    except mysql.connector.Error as err:
+        print(f"Error occurred: {err}")
+        connection.rollback()
+        return False
+
+    finally:
+        if cursor:
+            cursor.close()
+
+
+def retrieve_urls(database, table_number=""):
+    try:
+        connection = create_connection(database)
+        cursor = connection.cursor()
+        insert_query = f"""
+            SELECT url FROM {database}_urls{table_number}
+        """
+        cursor.execute(insert_query)
+        records = cursor.fetchall()
+
+        connection.commit()
+        return records
+
+    except mysql.connector.Error as err:
+        print(f"Error occurred: {err}")
+        connection.rollback()
+        return False
+
+    finally:
+        if cursor:
+            cursor.close()
+
+
 if __name__ == "__main__":
     print("database_module.py running in main")
-    ab = ("ch1", "no url")
-
-    insert_into_urls_table(ab)
+    connection = create_connection("ree")
+    records = retrieve_table("sl")
+    for record in records[:10]:
+        print(record)
