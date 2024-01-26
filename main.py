@@ -9,15 +9,14 @@ from bs4_module import (
 
 # fmt: on
 
-column_adress = {
+adress = {
     "database": "sl",
     "table": "sl_htmls",
     "column": "html",
 }
 
 
-database = "sl"
-urls = retrieve_table(database)
+urls = retrieve_table(adress)
 
 for u in urls[:50]:
     chapter_id = u[0]
@@ -30,4 +29,4 @@ for u in urls[:50]:
     html = creating_html(chapter_title, chapter_lines)
     # data_tupple = (chapter_title, html)
     data_tupple = (html, chapter_id)
-    set_column_by_id(column_adress, html)
+    set_column_by_id(adress, data_tupple)

@@ -108,6 +108,31 @@ def insert_into_html_column(database, data):
             cursor.close()
 
 
+def set_column_by_id(column_adress, data_tupple):
+    try:
+        connection = create_connection(column_adress["database"])
+        cursor = connection.cursor()
+
+        # update or insert data into kgm_html based on the fetched id
+        update_query = f"""update {column_adress['table']}
+        set {column_adress['column']} = %s where id = %s;"""
+
+        cursor.execute(update_query, data_tupple)
+        print(f"{data_tupple[1]} success")
+        return True
+
+    except mysql.connector.Error as error:
+        print("error setting_data: {}".format(error))
+        connection.rollback()
+        return False
+
+    finally:
+        if cursor:
+            cursor.close()
+        connection.commit()
+        connection.close()
+
+
 def set_column_by_id_defined(html_content, chapter_id):
     try:
         connection = create_connection("sl")
@@ -132,12 +157,12 @@ def set_column_by_id_defined(html_content, chapter_id):
         connection.close()
 
 
-def retrieve_table(database, table_number=""):
+def retrieve_table(table_adress):
     try:
-        connection = create_connection(database)
+        connection = create_connection(table_adress["database"])
         cursor = connection.cursor()
         insert_query = f"""
-            SELECT * FROM {database}_urls{table_number}
+            SELECT * FROM {table_adress['table']}
         """
         cursor.execute(insert_query)
         records = cursor.fetchall()

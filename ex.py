@@ -1,4 +1,4 @@
-from database_module import retrieve_table, insert_into_table_column
+from database_module import retrieve_table
 
 from bs4 import BeautifulSoup
 
@@ -8,10 +8,19 @@ soup = BeautifulSoup(html, "html.parser")
 
 html_content = soup.prettify()
 
-cleaned_html_adress = {
+adress = {
     "database": "sl",
     "table": "sl_htmls",
     "column": "raw_html",
 }
 
-insert_into_table_column(cleaned_html_adress, html_content)
+records = retrieve_table(adress)
+
+htmls = [html for record in records for html in record[2:]]
+
+html_test_content = htmls[2]
+
+example_file_path = "htmls/ex.html"
+
+with open(example_file_path, "w", encoding="utf-8") as f:
+    f.write(html_test_content)
