@@ -83,14 +83,16 @@ def insert_into_urls_table(chapter_and_url, database="sl", table_number=""):
             cursor.close()
 
 
-def insert_into_table_column(column_adress: dict, data):
+def insert_into_html_column(database, data):
+    connection = None
+    cursor = None
     try:
-        connection = create_connection(column_adress["database"])
+        connection = create_connection(database)
         cursor = connection.cursor()
         insert_query = f"""
-            INSERT INTO {column_adress['table']}
-            ({column_adress['column1']}, {column_adress['column2']})
-            VALUES (%s, %s)
+            INSERT INTO {database}_htmls
+            (id, chapter_title, html)
+            VALUES (%s, %s, %s)
         """
         cursor.execute(insert_query, data)
         connection.commit()
@@ -106,34 +108,7 @@ def insert_into_table_column(column_adress: dict, data):
             cursor.close()
 
 
-# def set_column_by_id(column_adress, html_content, chapter_id):
-#     try:
-#         connection = create_connection(column_adress["database"])
-#         cursor = connection.cursor()
-
-#         # update or insert data into kgm_html based on the fetched id
-#         update_query = f"""
-#             update {column_adress['table']} set
-# {column_adress['column']} = %s where id = %s;
-#             """
-
-#         cursor.execute(update_query, (html_content, chapter_id))
-#         print(f"{chapter_id} success")
-#         return True
-
-#     except mysql.connector.error as error:
-#         print("error setting_data: {}".format(error))
-#         connection.rollback()
-#         return False
-
-#     finally:
-#         if cursor:
-#             cursor.close()
-#         connection.commit()
-#         connection.close()
-
-
-def set_column_by_id(html_content, chapter_id):
+def set_column_by_id_defined(html_content, chapter_id):
     try:
         connection = create_connection("sl")
         cursor = connection.cursor()
@@ -145,7 +120,7 @@ def set_column_by_id(html_content, chapter_id):
         print(f"{chapter_id} success")
         return True
 
-    except mysql.connector.error as error:
+    except mysql.connector.Error as error:
         print("error setting_data: {}".format(error))
         connection.rollback()
         return False

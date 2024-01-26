@@ -1,4 +1,4 @@
-from database_module import retrieve_table, insert_into_table_column
+from database_module import retrieve_table, set_column_by_id
 
 from bs4_module import (
     # fmt: off
@@ -9,17 +9,17 @@ from bs4_module import (
 
 # fmt: on
 
-cleaned_html_adress = {
+column_adress = {
     "database": "sl",
     "table": "sl_htmls",
-    "column1": "chapter_title",
-    "column2": "cleaned_html",
+    "column": "html",
 }
+
 
 database = "sl"
 urls = retrieve_table(database)
 
-for u in urls[:4]:
+for u in urls[:50]:
     chapter_id = u[0]
     chapter_title = u[1]
     url = u[2]
@@ -27,6 +27,7 @@ for u in urls[:4]:
     entry_content = get_useful_html(url)
 
     chapter_lines = get_chapter_lines(entry_content)
-    cleaned_html = creating_html(chapter_title, chapter_lines)
-    data_tupple = (chapter_title, cleaned_html)
-    insert_into_table_column(cleaned_html_adress, data_tupple)
+    html = creating_html(chapter_title, chapter_lines)
+    # data_tupple = (chapter_title, html)
+    data_tupple = (html, chapter_id)
+    set_column_by_id(column_adress, html)
