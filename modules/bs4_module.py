@@ -1,5 +1,6 @@
-from bs4 import BeautifulSoup, NavigableString
 import requests
+from bs4 import BeautifulSoup, NavigableString
+from lxml import etree
 
 
 def get_page_html(url):
@@ -159,6 +160,39 @@ def creating_html(h1_tag_text, chapter_text_lines):
     except Exception as e:
         # Generic exception handling, ideally should be more specific
         print(f"An error occurred: {e}")
+
+
+def convert_html_to_xhtml(html_content, file_path="htmls/temp_sl.html"):
+    """
+    Convert HTML content to XHTML format.
+
+    Args:
+    - html_content (str): HTML content to be converted to XHTML.
+
+    Returns:
+    - str or None: Returns the converted XHTML content if successful,
+    otherwise returns None.
+    """
+    try:
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(html_content)
+
+        parser = etree.HTMLParser()
+        tree = etree.parse(file_path, parser)
+
+        xhtml_content = etree.tostring(
+            tree, pretty_print=True, method="xml", encoding="unicode"
+        )
+
+        return xhtml_content
+
+    except etree.Error as e:
+        print(f"Error occurred while converting HTML to XHTML: {e}")
+        return None
+
+    except Exception as ex:
+        print(f"An unexpected error occurred: {ex}")
+        return None
 
 
 def prettify_content(html_content):

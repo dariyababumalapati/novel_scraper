@@ -9,16 +9,23 @@ from bs4_module import (
 
 # fmt: on
 
-adress = {
+
+urls_adress = {
+    "database": "sl",
+    "table": "sl_urls",
+}
+
+
+htmls_adress = {
     "database": "sl",
     "table": "sl_htmls",
     "column": "html",
 }
 
 
-urls = retrieve_table(adress)
+urls = retrieve_table(urls_adress)
 
-for u in urls[:50]:
+for u in urls:
     chapter_id = u[0]
     chapter_title = u[1]
     url = u[2]
@@ -29,4 +36,4 @@ for u in urls[:50]:
     html = creating_html(chapter_title, chapter_lines)
     # data_tupple = (chapter_title, html)
     data_tupple = (html, chapter_id)
-    set_column_by_id(adress, data_tupple)
+    set_column_by_id(htmls_adress, data_tupple)

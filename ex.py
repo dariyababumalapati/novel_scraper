@@ -16,9 +16,13 @@ adress = {
 
 records = retrieve_table(adress)
 
-htmls = [html for record in records for html in record[2:]]
+htmls = [html for record in records for html in record[2:3]]
 
-html_test_content = htmls[2]
+record = records[0]
+# print(len(htmls))
+# for html in htmls:
+#     print(html)
+html_test_content = htmls[5]
 
 example_file_path = "htmls/ex.html"
 
