@@ -1,1 +1,2 @@
 Step 1: Ignore the html files.
+Step 2: Testing git diff.
