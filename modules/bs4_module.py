@@ -195,6 +195,38 @@ def convert_html_to_xhtml(html_content, file_path="htmls/temp_sl.html"):
         return None
 
 
+def convert_html_to_xhtml_str(html_content: str):
+    """
+    Convert HTML content to XHTML format.
+
+    Args:
+    - html_content (str): HTML content to be converted to XHTML.
+
+    Returns:
+    - str or None: Returns the converted XHTML content if successful,
+    otherwise returns None.
+    """
+    try:
+        # Create an HTML parser
+        parser = etree.HTMLParser()
+
+        # Parse the HTML content into an XML tree
+        tree = etree.fromstring(html_content, parser)
+
+        # Convert the XML tree to XHTML content
+        output_content = etree.tostring(
+            tree, pretty_print=True, method="xml", encoding="unicode"
+        )
+        return output_content
+
+    except etree.Error as e:
+        print(f"Error occurred while converting HTML to XHTML: {e}")
+        return None
+    except Exception as ex:
+        print(f"An unexpected error occurred: {ex}")
+        return None
+
+
 def prettify_content(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
 

@@ -1,2 +1,14 @@
 Step 1: Ignore the html files.
 Step 2: Testing git diff.
+Step 3: Check whether htmls folder being observed by git.
+Step 4: htmls folder is being ignored by the git.
+
+Step 5: Store the converted xhtml to database.
+	* Get the html from the table records.
+	* Pass the html code to the convert_html_to_xhtml function.
+	* Check the xhtml.
+	* Store the xhtml into the database.
+		~ call the insert_into column function.
+		~ Store the xhtml.
+	* Success.
+	* Check the xhtml again.

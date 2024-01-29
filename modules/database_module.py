@@ -24,7 +24,7 @@ def create_connection(database_name: str):
     """
     try:
         connection = mysql.connector.connect(
-            host="192.168.1.8",
+            host="192.168.1.5",
             user="root",
             password=os.environ.get("MYSQL_PASSWORD"),
             database=database_name,
@@ -206,6 +206,6 @@ def retrieve_urls(database, table_number=""):
 if __name__ == "__main__":
     print("database_module.py running in main")
     connection = create_connection("ree")
-    records = retrieve_table("sl")
-    for record in records[:10]:
-        print(record)
+    # records = retrieve_table("sl")
+    # for record in records[:10]:
+    #     print(record)
