@@ -1,28 +1,27 @@
-from database_module_kgm import get_records
+from modules.database_module import retrieve_table
+from modules.epub_module import EpubMaker
 
-from epub_maker_kgm import EpubMaker
+
+htmls_adress = {
+    "database": "sl",
+    "table": "sl_htmls",
+}
 
 
-query = "SELECT * FROM kgm_html;"
+table_records = retrieve_table(htmls_adress)
 
-rows = get_records(query)
-
-# xhtml_li = [xhtml[0] for xhtml in xhtml_content]
-
-# chapters_range = data['chapters_range']
-
-# chapters_range = '21'
+chapter_data_list = [(record[1], record[3]) for record in table_records]
 
 
 book_information = {
-    "book_title": "KGM",
-    "author_name": "niu",
-    "language": "en",
-    "image_file_path": "kgm.jpg",
-    "folder_path": rows,
-    "epub_file_name": "king_of_mercenaries",
-    "destination_directory": "C:/Users/91833/OneDrive/Desktop/books",
+    "book_title": "Solo Leveling",
+    "author_name": "Chugong",
+    "language": "it",
+    "image_file_path": "/mnt/c/Users/91833/OneDrive/Desktop/ree.jpeg",
+    "chapter_contents": chapter_data_list,
+    "epub_file_name": "solo_leveling.epub",
+    "destination_directory": "/mnt/c/Users/91833/OneDrive/Desktop/books/sl",
 }
 
-king_of_gods = EpubMaker()
-king_of_gods.make_epub(book_information)
+sl = EpubMaker()
+sl.make_epub(book_information)

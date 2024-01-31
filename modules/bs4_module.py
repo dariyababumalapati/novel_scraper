@@ -227,6 +227,29 @@ def convert_html_to_xhtml_str(html_content: str):
         return None
 
 
+def html_to_xhtml(html_string):
+    """
+    Converts an HTML string to XHTML format.
+
+    Args:
+        html_string (str): A string containing HTML content.
+
+    Returns:
+        str: A string formatted as XHTML.
+
+    Raises:
+        ValueError: If the input is not a valid HTML string.
+    """
+    try:
+        soup = BeautifulSoup(html_string, "lxml")
+        xhtml_string = soup.prettify()
+
+        return "<!DOCTYPE html>\n" + xhtml_string
+
+    except Exception as e:
+        raise ValueError(f"Invalid HTML input: {e}")
+
+
 def prettify_content(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
 

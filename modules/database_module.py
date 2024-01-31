@@ -24,7 +24,7 @@ def create_connection(database_name: str):
     """
     try:
         connection = mysql.connector.connect(
-            host="192.168.1.5",
+            host="192.168.8.232",
             user="root",
             password=os.environ.get("MYSQL_PASSWORD"),
             database=database_name,

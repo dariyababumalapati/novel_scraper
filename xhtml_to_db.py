@@ -1,6 +1,6 @@
 from modules.database_module import retrieve_table, set_column_by_id
 
-from modules.bs4_module import convert_html_to_xhtml
+from modules.bs4_module import html_to_xhtml
 
 
 htmls_adress = {
@@ -16,12 +16,11 @@ xhtml_adress = {
 
 table_records = retrieve_table(htmls_adress)
 
-
 for table_record in table_records:
     chapter_id = table_record[0]
     html = table_record[2]
 
-    xhtml = convert_html_to_xhtml(html)
+    xhtml = html_to_xhtml(html)
 
     data_set = (xhtml, chapter_id)
 

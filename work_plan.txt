@@ -18,3 +18,5 @@ Step 6: Create epub:
 	1. Check the old epub making code.
 	2. Make a epub making module.
 	3. Make the epub_work.py.
+	4. Make the chapter_data_list from table_recoeds.
+	5. Store the chapter_data_list in database.
